@@ -29,7 +29,7 @@ renamed as (
         filename
 
     from source
-      WHERE lpep_pickup_datetime < TIMESTAMP '2022-12-31'
+      WHERE lpep_pickup_datetime < TIMESTAMP '2024-07-07'
         AND trip_distance >= 0
 )
 
