@@ -22,7 +22,7 @@ renamed as (
 
 )
 
-select
+select 
     date,
     awnd,
     prcp,

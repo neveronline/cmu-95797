@@ -13,7 +13,7 @@ renamed as (
         passenger_count::int as passenger_count,
         trip_distance,
         ratecodeid,
-        {{varchar_to_bool("store_and_fwd_flag")}} as store_and_fwd_flag,
+        {{flag_to_bool("store_and_fwd_flag")}} as store_and_fwd_flag,
         pulocationid,
         dolocationid,
         payment_type,
@@ -29,8 +29,8 @@ renamed as (
         filename
 
     from source
-        WHERE tpep_pickup_datetime < TIMESTAMP '2024-07-07'
-          AND trip_distance >= 0
+        WHERE tpep_pickup_datetime < TIMESTAMP '2022-12-31' -- drop rows in the future
+          AND trip_distance >= 0 -- drop negative trip_distance
 )
 
 select * from renamed
