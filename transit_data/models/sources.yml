@@ -5,256 +5,394 @@ sources:
         columns:
           - name: tripduration
             data_type: varchar
+            description: "Duration of the trip in seconds."
           - name: starttime
             data_type: varchar
+            description: "Start time of the trip."
           - name: stoptime
             data_type: varchar
+            description: "Stop time of the trip."
           - name: start station id
             data_type: varchar
+            description: "ID of the station where the trip started."
           - name: start station name
             data_type: varchar
+            description: "Name of the station where the trip started."
           - name: start station latitude
             data_type: varchar
+            description: "Latitude of the station where the trip started."
           - name: start station longitude
             data_type: varchar
+            description: "Longitude of the station where the trip started."
           - name: end station id
             data_type: varchar
+            description: "ID of the station where the trip ended."
           - name: end station name
             data_type: varchar
+            description: "Name of the station where the trip ended."
           - name: end station latitude
             data_type: varchar
+            description: "Latitude of the station where the trip ended."
           - name: end station longitude
             data_type: varchar
+            description: "Longitude of the station where the trip ended."
           - name: bikeid
             data_type: varchar
+            description: "ID of the bike used for the trip."
           - name: usertype
             data_type: varchar
+            description: "Type of user (Subscriber or Customer)."
           - name: birth year
             data_type: varchar
+            description: "Birth year of the user."
           - name: gender
             data_type: varchar
+            description: "Gender of the user (1=male, 2=female, 0=unknown)."
           - name: ride_id
             data_type: varchar
+            description: "Unique ID for the ride."
           - name: rideable_type
             data_type: varchar
+            description: "Type of bike used for the ride."
           - name: started_at
             data_type: varchar
+            description: "Timestamp when the ride started."
           - name: ended_at
             data_type: varchar
+            description: "Timestamp when the ride ended."
           - name: start_station_name
             data_type: varchar
+            description: "Name of the start station."
           - name: start_station_id
             data_type: varchar
+            description: "ID of the start station."
           - name: end_station_name
             data_type: varchar
+            description: "Name of the end station."
           - name: end_station_id
             data_type: varchar
+            description: "ID of the end station."
           - name: start_lat
             data_type: varchar
+            description: "Latitude of the start station."
           - name: start_lng
             data_type: varchar
+            description: "Longitude of the start station."
           - name: end_lat
             data_type: varchar
+            description: "Latitude of the end station."
           - name: end_lng
             data_type: varchar
+            description: "Longitude of the end station."
           - name: member_casual
             data_type: varchar
+            description: "Type of user (member or casual)."
           - name: filename
             data_type: varchar
-
+            description: "Name of the file from which data was sourced."
       - name: central_park_weather
         columns:
           - name: station
             data_type: varchar
+            description: "Weather station identifier."
+            tests:
+              - dbt_expectations.expect_column_to_exist
           - name: name
             data_type: varchar
+            description: "Name of the weather station."
           - name: date
             data_type: varchar
+            description: "Date of the weather observation."
           - name: awnd
             data_type: varchar
+            description: "Average wind speed."
           - name: prcp
             data_type: varchar
+            description: "Precipitation."
           - name: snow
             data_type: varchar
+            description: "Snowfall."
           - name: snwd
             data_type: varchar
+            description: "Snow depth."
           - name: tmax
             data_type: varchar
+            description: "Maximum temperature."
           - name: tmin
             data_type: varchar
+            description: "Minimum temperature."
           - name: filename
             data_type: varchar
-
+            description: "Name of the file from which data was sourced."
       - name: fhv_bases
         columns:
           - name: base_number
             data_type: varchar
+            description: "Base number of the for-hire vehicle."
+            tests:
+              - unique
+              - dbt_expectations.expect_column_to_exist
           - name: base_name
             data_type: varchar
+            description: "Name of the for-hire vehicle base."
           - name: dba
             data_type: varchar
+            description: "Doing business as name."
           - name: dba_category
             data_type: varchar
+            description: "Category of the doing business as name."
           - name: filename
             data_type: varchar
-
+            description: "Name of the file from which data was sourced."
       - name: fhv_tripdata
         columns:
           - name: dispatching_base_num
             data_type: varchar
+            description: "Dispatching base number."
+            tests:
+              - dbt_expectations.expect_column_to_exist
           - name: pickup_datetime
             data_type: timestamp
+            description: "Pickup date and time."
           - name: dropoff_datetime
             data_type: timestamp
+            description: "Dropoff date and time."
           - name: pulocationid
             data_type: double
+            description: "Pickup location ID."
           - name: dolocationid
             data_type: double
+            description: "Dropoff location ID."
           - name: sr_flag
             data_type: integer
+            description: "Shared ride flag."
           - name: affiliated_base_number
             data_type: varchar
+            description: "Affiliated base number."
           - name: filename
             data_type: varchar
-
+            description: "Name of the file from which data was sourced."
       - name: fhvhv_tripdata
         columns:
           - name: hvfhs_license_num
             data_type: varchar
+            description: "High-volume for-hire service license number."
+            tests:
+              - dbt_expectations.expect_column_to_exist
           - name: dispatching_base_num
             data_type: varchar
+            description: "Dispatching base number."
           - name: originating_base_num
             data_type: varchar
+            description: "Originating base number."
           - name: request_datetime
             data_type: timestamp
+            description: "Request date and time."
           - name: on_scene_datetime
             data_type: timestamp
+            description: "On-scene date and time."
           - name: pickup_datetime
             data_type: timestamp
+            description: "Pickup date and time."
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
           - name: dropoff_datetime
             data_type: timestamp
+            description: "Dropoff date and time."
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
           - name: pulocationid
             data_type: bigint
+            description: "Pickup location ID."
           - name: dolocationid
             data_type: bigint
+            description: "Dropoff location ID."
           - name: trip_miles
             data_type: double
+            description: "Trip distance in miles."
+            test:
+                - dbt_expectations.expect_column_to_be_between:
+                    min: 0
+                    max: 10000
           - name: trip_time
             data_type: bigint
+            description: "Trip duration in minutes."
           - name: base_passenger_fare
             data_type: double
+            description: "Base passenger fare."
           - name: tolls
             data_type: double
+            description: "Tolls charged."
           - name: bcf
             data_type: double
+            description: "Black car fund fee."
           - name: sales_tax
             data_type: double
+            description: "Sales tax."
           - name: congestion_surcharge
             data_type: double
+            description: "Congestion surcharge."
           - name: airport_fee
             data_type: double
+            description: "Airport fee."
           - name: tips
             data_type: double
+            description: "Tips given to the driver."
           - name: driver_pay
             data_type: double
+            description: "Driver's pay."
           - name: shared_request_flag
             data_type: varchar
+            description: "Flag indicating if the trip was a shared request."
           - name: shared_match_flag
             data_type: varchar
+            description: "Flag indicating if the trip was matched for sharing."
           - name: access_a_ride_flag
             data_type: varchar
+            description: "Flag indicating if the trip was an Access-A-Ride trip."
           - name: wav_request_flag
             data_type: varchar
+            description: "Flag indicating if a wheelchair-accessible vehicle was requested."
           - name: wav_match_flag
             data_type: varchar
+            description: "Flag indicating if a wheelchair-accessible vehicle was matched."
           - name: filename
             data_type: varchar
-
+            description: "Name of the file from which data was sourced."
       - name: green_tripdata
         columns:
           - name: vendorid
             data_type: bigint
+            description: "ID of the vendor."
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
           - name: lpep_pickup_datetime
             data_type: timestamp
+            description: "Pickup date and time."
+            tests:
+              - not_null
           - name: lpep_dropoff_datetime
             data_type: timestamp
+            description: "Dropoff date and time."
           - name: store_and_fwd_flag
             data_type: varchar
+            description: "Flag indicating if the trip data was held in vehicle memory before sending to the vendor."
           - name: ratecodeid
             data_type: double
+            description: "Rate code ID."
           - name: pulocationid
             data_type: bigint
+            description: "Pickup location ID."
           - name: dolocationid
             data_type: bigint
+            description: "Dropoff location ID."
           - name: passenger_count
             data_type: double
+            description: "Number of passengers."
           - name: trip_distance
             data_type: double
+            description: "Distance of the trip in miles."
           - name: fare_amount
             data_type: double
+            description: "Fare amount."
           - name: extra
             data_type: double
+            description: "Extra charges."
           - name: mta_tax
             data_type: double
+            description: "MTA tax."
           - name: tip_amount
             data_type: double
+            description: "Tip amount."
           - name: tolls_amount
             data_type: double
+            description: "Tolls amount."
           - name: ehail_fee
             data_type: integer
+            description: "E-hail fee."
           - name: improvement_surcharge
             data_type: double
+            description: "Improvement surcharge."
           - name: total_amount
             data_type: double
+            description: "Total amount."
           - name: payment_type
             data_type: double
+            description: "Payment type."
           - name: trip_type
             data_type: double
+            description: "Trip type."
           - name: congestion_surcharge
             data_type: double
+            description: "Congestion surcharge."
           - name: filename
             data_type: varchar
-
+            description: "Name of the file from which data was sourced."
       - name: yellow_tripdata
         columns:
           - name: vendorid
             data_type: bigint
+            description: "ID of the vendor."
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
           - name: tpep_pickup_datetime
             data_type: timestamp
+            description: "Pickup date and time."
           - name: tpep_dropoff_datetime
             data_type: timestamp
+            description: "Dropoff date and time."
           - name: passenger_count
             data_type: double
+            description: "Number of passengers."
           - name: trip_distance
             data_type: double
+            description: "Distance of the trip in miles."
           - name: ratecodeid
             data_type: double
+            description: "Rate code ID."
           - name: store_and_fwd_flag
             data_type: varchar
+            description: "Flag indicating if the trip data was held in vehicle memory before sending to the vendor."
           - name: pulocationid
             data_type: bigint
+            description: "Pickup location ID."
           - name: dolocationid
             data_type: bigint
+            description: "Dropoff location ID."
           - name: payment_type
             data_type: bigint
+            description: "Payment type."
           - name: fare_amount
             data_type: double
+            description: "Fare amount."
           - name: extra
             data_type: double
+            description: "Extra charges."
           - name: mta_tax
             data_type: double
+            description: "MTA tax."
           - name: tip_amount
             data_type: double
+            description: "Tip amount."
           - name: tolls_amount
             data_type: double
+            description: "Tolls amount."
           - name: improvement_surcharge
             data_type: double
+            description: "Improvement surcharge."
           - name: total_amount
             data_type: double
+            description: "Total amount."
           - name: congestion_surcharge
             data_type: double
+            description: "Congestion surcharge."
           - name: airport_fee
             data_type: double
+            description: "Airport fee."
           - name: filename
             data_type: varchar
-
+            description: "Name of the file from which data was sourced."
