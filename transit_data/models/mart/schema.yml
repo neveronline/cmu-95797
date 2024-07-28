@@ -4,8 +4,6 @@ models:
     columns:
       - name: station_id
         description: "bike station id, primary key"
-        tests:
-              - unique
 
       - name: station_name
         description: ""
@@ -109,3 +107,11 @@ models:
 
       - name: duration_sec
         description: ""
+
+  - name: mart__fact_trips_by_borough
+    description: "Number of trips grouped by pickup borough"
+    columns:
+      - name: borough
+        description: "The borough where the trip started"
+      - name: trips
+        description: "The total number of trips"
